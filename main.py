@@ -46,3 +46,7 @@ def get_command_line_args():
     parser.add_argument('--threshold', type=int, required=True, help='Threshold in seconds for request duration')
 
     return parser.parse_args()
+
+# Function to format URL from protocol, hostname, and URI
+def format_url(protocol: str, hostname: str, uri: str) -> str:
+    return f"{protocol}://{hostname}{uri}"
