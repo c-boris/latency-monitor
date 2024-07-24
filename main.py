@@ -50,3 +50,24 @@ def get_command_line_args():
 # Function to format URL from protocol, hostname, and URI
 def format_url(protocol: str, hostname: str, uri: str) -> str:
     return f"{protocol}://{hostname}{uri}"
+
+# Main block to run the script
+if __name__ == "__main__":
+    # Configure logging settings
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+    # Get command-line arguments
+    args = get_command_line_args()
+    # Format the URL from the arguments
+    url = format_url(args.protocol, args.hostname, args.uri)
+
+    try:
+        # Perform HTTP GET request and check for threshold violation
+        data = http_get(url, args.threshold)
+        # Print the response data
+        print(data)
+    except ThresholdExceededException as te:
+        # Log threshold exceeded exceptions at CRITICAL level
+        logging.critical(te)
+    except Exception as e:
+        # Log any other exceptions at CRITICAL level
+        logging.critical(f"Failed to get data: {e}")
