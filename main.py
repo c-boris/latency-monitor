@@ -1,6 +1,7 @@
 import requests
 import logging
 import time
+import argparse
 
 
 # Custom exception for threshold exceeding
@@ -34,3 +35,14 @@ def http_get(url: str, threshold: int):
     except Exception as err:
         logging.critical(f"Other error occurred: {err}")
         raise
+    
+    # Function to parse command-line arguments
+def get_command_line_args():
+    parser = argparse.ArgumentParser(description='Process command-line arguments for HTTP GET request.')
+    # Add arguments for protocol, hostname, URI, and threshold
+    parser.add_argument('--protocol', type=str, required=True, choices=['http', 'https'], help='Protocol (http or https)')
+    parser.add_argument('--hostname', type=str, required=True, help='Hostname')
+    parser.add_argument('--uri', type=str, required=True, help='URI')
+    parser.add_argument('--threshold', type=int, required=True, help='Threshold in seconds for request duration')
+
+    return parser.parse_args()
